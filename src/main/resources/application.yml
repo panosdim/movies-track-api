@@ -1,0 +1,26 @@
+spring:
+    application:
+        name: movies-track-api
+    datasource:
+        url: jdbc:postgresql://localhost:5432/moviestrack
+        username: ${DB_USER}
+        password: ${DB_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    mail:
+        host: ${SMTP_HOST}
+        port: ${SMTP_PORT}
+        username: ${SMTP_USERNAME}
+        password: ${SMTP_PASSWORD}
+jwt:
+    secret: ${JWT_SECRET}
+    expiration-time-ms: 3600000
+watch-providers:
+    update:
+        cron: "0 0 0 * * *" # Every day at midnight
+tmdb:
+    key: ${TMDB_KEY}
+    image:
+        base-url: https://image.tmdb.org/t/p/
