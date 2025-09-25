@@ -8,6 +8,9 @@ on:
 jobs:
   build-native-image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         arch: [amd64, arm64]
@@ -26,10 +29,10 @@ jobs:
 
       - name: Build native image for ${{ matrix.arch }}
         run: ./gradlew bootBuildImage --imagePlatform=linux/${{ matrix.arch }} --imageName=ghcr.io/${{ github.repository }}:${{ matrix.arch }}
-      
+
       - name: Push image
         run: docker push ghcr.io/${{ github.repository }}:${{ matrix.arch }}
-      
+
       - name: Create and push multi-arch manifest
         run: |
           docker manifest create ghcr.io/${{ github.repository }}:latest \
