@@ -19,9 +19,6 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 		vendor = JvmVendorSpec.GRAAL_VM
-		capabilities {
-		nativeImageCapable.set(true)
-		}
 		automaticDownload = true
 	}
 }
