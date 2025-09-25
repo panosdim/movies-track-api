@@ -22,10 +22,6 @@ java {
 	}
 }
 
-gradle.toolchainDownload.repositories {
-   mavenCentral()
-}
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
