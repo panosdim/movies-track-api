@@ -38,3 +38,4 @@ out/
 
 ### secrets ###
 .env
+moviestrack_backup.sql
