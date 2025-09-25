@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build ARM64 native image inside Docker
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
+          docker run --rm -u $(id -u):$(id -g) -v ${{ github.workspace }}:/workspace -w /workspace \
           ghcr.io/graalvm/graalvm-ce:22.3.1 \
           ./gradlew bootBuildImage --imagePlatform=linux/arm64 --imageName=ghcr.io/${{ github.repository }}:arm64
       - name: Push arm64 image
