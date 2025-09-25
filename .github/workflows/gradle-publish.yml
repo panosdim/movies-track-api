@@ -43,6 +43,8 @@ jobs:
       # Build amd64 native image
       - name: Build native image for amd64
         run: ./gradlew bootBuildImage --imagePlatform=linux/amd64 --imageName=ghcr.io/${{ github.repository }}:amd64
+        env:
+          BP_NATIVE_IMAGE_BUILD_ARGUMENTS: "-march=haswell"
 
       # Push amd64 image
       - name: Push amd64 image
