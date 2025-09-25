@@ -46,8 +46,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build native image for arm64
-        run: ./gradlew bootBuildImage --imagePlatform=linux/arm64 --imageName=ghcr.io/${{ github.repository }}:arm64
+      - name: Build ARM64 native image in Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
+            bellsoft/liberica-native-image:21.0.8 \
+            ./gradlew bootBuildImage --imagePlatform=linux/arm64 --imageName=ghcr.io/${{ github.repository }}:arm64
+
       - name: Push arm64 image
         run: docker push ghcr.io/${{ github.repository }}:arm64 
 
