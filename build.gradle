@@ -10,7 +10,7 @@ bootBuildImage {
   builder = 'paketobuildpacks/builder-jammy-buildpackless-tiny'
   buildpacks = ['paketobuildpacks/oracle', 'paketobuildpacks/java-native-image']
   environment = [
-        'BP_NATIVE_IMAGE_BUILD_ARGUMENTS': '--target-cpu=compatibility -H:+UnlockExperimentalVMOptions'
+        'BP_NATIVE_IMAGE_BUILD_ARGUMENTS': '-march=compatibility -H:+UnlockExperimentalVMOptions'
     ]
 }
 
