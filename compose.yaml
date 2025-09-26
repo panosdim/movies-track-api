@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: production
     ports:
       - '8080:8080'
     depends_on:
