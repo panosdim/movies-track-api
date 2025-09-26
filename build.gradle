@@ -11,6 +11,14 @@ bootBuildImage {
   buildpacks = ['paketobuildpacks/oracle', 'paketobuildpacks/java-native-image']
 }
 
+springBoot {
+    buildImage {
+        environment = [
+            "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" : "-march=core2 -H:+UnlockExperimentalVMOptions"
+        ]
+    }
+}
+
 group = 'eu.deltasw'
 version = '0.0.1-SNAPSHOT'
 description = 'REST API for movies track'
