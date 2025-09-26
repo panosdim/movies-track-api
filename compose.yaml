@@ -11,6 +11,14 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d moviestrack"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
   api:
     image: ghcr.io/panosdim/movies-track-api
     container_name: movies-track-api
@@ -22,5 +30,8 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
+volumes:
+  postgres-data:
