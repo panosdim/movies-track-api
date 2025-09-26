@@ -12,7 +12,7 @@ services:
     ports:
       - '5432:5432'
   api:
-    image: ghcr.io/panosdim/movies-track-api:latest
+    image: ghcr.io/panosdim/movies-track-api
     container_name: movies-track-api
     restart: unless-stopped
     env_file:
