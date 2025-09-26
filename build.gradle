@@ -3,15 +3,6 @@ plugins {
 	id 'org.springframework.boot' version '3.5.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.hibernate.orm' version '6.6.29.Final'
-	id 'org.graalvm.buildtools.native' version '0.10.6'
-}
-
-bootBuildImage {
-  builder = 'paketobuildpacks/builder-jammy-buildpackless-tiny'
-  buildpacks = ['paketobuildpacks/oracle', 'paketobuildpacks/java-native-image']
-  environment = [
-        'BP_NATIVE_IMAGE_BUILD_ARGUMENTS': '-march=compatibility -H:+UnlockExperimentalVMOptions'
-    ]
 }
 
 group = 'eu.deltasw'
@@ -21,7 +12,6 @@ description = 'REST API for movies track'
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
-		vendor = JvmVendorSpec.ADOPTIUM
 	}
 }
 
@@ -42,8 +32,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.13.0'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.13.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0'
 	implementation 'uk.co.conoregan:themoviedbapi:2.3.1'
 	implementation 'org.modelmapper:modelmapper:3.2.4'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -65,12 +55,4 @@ hibernate {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-graalvmNative {
-    binaries.main {
-        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.impl.DefaultJwtParserBuilder')
-        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.impl.security.KeysBridge')
-        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.jackson.io.JacksonSerializer')
-    }
 }
