@@ -1,1 +1,0 @@
-org.springframework.aot.hint.RuntimeHintsRegistrar=eu.deltasw.movies_track_api.config.MyRuntimeHints
