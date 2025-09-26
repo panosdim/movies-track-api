@@ -66,3 +66,11 @@ hibernate {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+graalvmNative {
+    binaries.main {
+        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.impl.DefaultJwtParserBuilder')
+        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.impl.security.KeysBridge')
+        buildArgs.add('--initialize-at-build-time=io.jsonwebtoken.jackson.io.JacksonSerializer')
+    }
+}
