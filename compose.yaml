@@ -40,6 +40,8 @@ services:
       - .env
     ports:
       - '8005:8005'
+    volumes:
+      - ./models:/app/models
     depends_on:
       postgres:
         condition: service_healthy

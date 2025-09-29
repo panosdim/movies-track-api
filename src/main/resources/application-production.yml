@@ -3,4 +3,4 @@ spring:
     url: jdbc:postgresql://postgres:5432/moviestrack
 suggestion:
     service:
-        url: http://localhost:8005
+        url: http://recommendations:8005
