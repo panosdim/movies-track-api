@@ -32,6 +32,16 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
+  recommendations:
+    image: ghcr.io/panosdim/movies-track-recommender
+    container_name: movies-track-recommender
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '8005:8005'
+    depends_on:
+      postgres:
+        condition: service_healthy
 volumes:
   postgres-data:

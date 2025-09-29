@@ -1,29 +1,32 @@
-{
-  "properties": [
-    {
-      "name": "jwt.secret",
-      "type": "java.lang.String",
-      "description": "A description for 'jwt.secret'"
-    },
-    {
-      "name": "jwt.expiration-time-ms",
-      "type": "java.lang.Long",
-      "description": "A description for 'jwt.expiration-time-ms'"
-    },
-    {
-      "name": "watch-providers.update.cron",
-      "type": "java.lang.String",
-      "description": "A description for 'watch-providers.update.cron'"
-    },
-    {
-      "name": "tmdb.key",
-      "type": "java.lang.String",
-      "description": "A description for 'tmdb.key'"
-    },
-    {
-      "name": "tmdb.image.base-url",
-      "type": "java.lang.String",
-      "description": "A description for 'tmdb.image.base-url'"
-    }
-  ]
-}
+{"properties": [
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret'"
+  },
+  {
+    "name": "jwt.expiration-time-ms",
+    "type": "java.lang.Long",
+    "description": "A description for 'jwt.expiration-time-ms'"
+  },
+  {
+    "name": "watch-providers.update.cron",
+    "type": "java.lang.String",
+    "description": "A description for 'watch-providers.update.cron'"
+  },
+  {
+    "name": "tmdb.key",
+    "type": "java.lang.String",
+    "description": "A description for 'tmdb.key'"
+  },
+  {
+    "name": "tmdb.image.base-url",
+    "type": "java.lang.String",
+    "description": "A description for 'tmdb.image.base-url'"
+  },
+  {
+    "name": "suggestion.service.url",
+    "type": "java.lang.String",
+    "description": "A description for 'suggestion.service.url'"
+  }
+]}

@@ -38,4 +38,4 @@ out/
 
 ### secrets ###
 .env
-moviestrack_backup.sql
+db-init/*.sql

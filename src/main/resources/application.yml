@@ -24,3 +24,6 @@ tmdb:
     key: ${TMDB_KEY}
     image:
         base-url: https://image.tmdb.org/t/p/
+suggestion:
+    service:
+        url: http://localhost:8005

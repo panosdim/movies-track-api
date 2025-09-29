@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.deltasw.movies_track_api.client.SuggestionServiceClient;
 import eu.deltasw.movies_track_api.model.dto.AddMovieRequest;
 import eu.deltasw.movies_track_api.model.dto.RateRequest;
 import eu.deltasw.movies_track_api.model.dto.WatchlistResponse;
@@ -35,12 +37,15 @@ public class MovieController {
     private final MovieRepository repository;
     private final TmdbApi tmdb;
     private final WatchProvidersMapperService watchProvidersMapperService;
+    private final SuggestionServiceClient suggestionServiceClient;
 
     public MovieController(MovieRepository repository, TmdbApi tmdb,
-            WatchProvidersMapperService watchProvidersMapperService) {
+            WatchProvidersMapperService watchProvidersMapperService,
+            SuggestionServiceClient suggestionServiceClient) {
         this.repository = repository;
         this.tmdb = tmdb;
         this.watchProvidersMapperService = watchProvidersMapperService;
+        this.suggestionServiceClient = suggestionServiceClient;
     }
 
     @GetMapping("/watched")
@@ -73,6 +78,13 @@ public class MovieController {
         return ResponseEntity.ok(watchlistResponse);
     }
 
+    @GetMapping("/suggestions")
+    public ResponseEntity<?> getSuggestions(@AuthenticationPrincipal User user,
+            @RequestParam(value = "numMovies", defaultValue = "10") int numMovies) {
+        log.info("Fetching {} suggestions for user {}", numMovies, user.getEmail());
+        return suggestionServiceClient.getSuggestions(numMovies, user.getEmail());
+    }
+
     @PostMapping
     public ResponseEntity<?> addMovie(@AuthenticationPrincipal User user,
             @Valid @RequestBody AddMovieRequest addMovie) {
@@ -95,7 +107,12 @@ public class MovieController {
 
         Movie savedMovie = repository.save(movie);
 
-        // TODO: Notify suggestion service
+        // Notify suggestion service to retrain
+        try {
+            suggestionServiceClient.train(user.getEmail());
+        } catch (Exception e) {
+            log.error("Error notifying suggestion service for retrain after addMovie", e);
+        }
 
         return ResponseEntity.ok(savedMovie);
     }
@@ -114,7 +131,12 @@ public class MovieController {
     @PostMapping("/rate/{id}")
     public ResponseEntity<?> setRating(@AuthenticationPrincipal User user, @PathVariable("id") Long id,
             @Valid @RequestBody RateRequest rateRequest) {
-        // TODO: Notify suggestion service
+        // Notify suggestion service to retrain
+        try {
+            suggestionServiceClient.train(user.getEmail());
+        } catch (Exception e) {
+            log.error("Error notifying suggestion service for retrain after setRating", e);
+        }
 
         return repository.findById(id)
                 .filter(m -> m.getUserId().equals(user.getEmail()))
@@ -127,7 +149,12 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovie(@AuthenticationPrincipal User user, @PathVariable("id") Long id) {
-        // TODO: Notify suggestion service
+        // Notify suggestion service to retrain
+        try {
+            suggestionServiceClient.train(user.getEmail());
+        } catch (Exception e) {
+            log.error("Error notifying suggestion service for retrain after deleteMovie", e);
+        }
 
         return repository.findById(id)
                 .filter(m -> m.getUserId().equals(user.getEmail()))
