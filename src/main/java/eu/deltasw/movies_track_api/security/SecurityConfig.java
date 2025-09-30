@@ -19,7 +19,12 @@ public class SecurityConfig {
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         var configuration = new org.springframework.web.cors.CorsConfiguration();
-        configuration.setAllowedOrigins(java.util.List.of("http://localhost:4200", "https://movies.deltasw.eu"));
+        String env = System.getenv("SPRING_PROFILES_ACTIVE");
+        if (env != null && env.equalsIgnoreCase("production")) {
+            configuration.setAllowedOrigins(java.util.List.of("https://movies.deltasw.eu"));
+        } else {
+            configuration.setAllowedOrigins(java.util.List.of("http://localhost:4200"));
+        }
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.List.of("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);

@@ -37,13 +37,18 @@ public class AuthController {
         if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
             String token = jwtUtil.generateToken(request.getEmail());
 
-            ResponseCookie cookie = ResponseCookie.from("jwt", token)
+            String env = System.getenv("SPRING_PROFILES_ACTIVE");
+            boolean isProduction = env != null && env.equalsIgnoreCase("production");
+            ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from("jwt", token)
                     .httpOnly(true)
-                    .secure(true)
                     .path("/")
-                    .maxAge(jwtProperties.getExpirationTimeMs() / 1000)
-                    .sameSite("Strict")
-                    .build();
+                    .maxAge(jwtProperties.getExpirationTimeMs() / 1000);
+            if (isProduction) {
+                cookieBuilder.secure(true).sameSite("Strict");
+            } else {
+                cookieBuilder.secure(false).sameSite("None");
+            }
+            ResponseCookie cookie = cookieBuilder.build();
 
             return ResponseEntity
                     .ok()
