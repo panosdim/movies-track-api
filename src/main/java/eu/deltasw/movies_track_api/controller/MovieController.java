@@ -80,9 +80,9 @@ public class MovieController {
 
     @GetMapping("/suggestions")
     public ResponseEntity<?> getSuggestions(@AuthenticationPrincipal User user,
-            @RequestParam(value = "numMovies", defaultValue = "10") int numMovies) {
-        log.info("Fetching {} suggestions for user {}", numMovies, user.getEmail());
-        return suggestionServiceClient.getSuggestions(numMovies, user.getEmail());
+            @RequestParam(value = "max_suggestions", defaultValue = "10") int maxSuggestions) {
+        log.info("Fetching {} suggestions for user {}", maxSuggestions, user.getEmail());
+        return suggestionServiceClient.getSuggestions(maxSuggestions, user.getEmail());
     }
 
     @PostMapping

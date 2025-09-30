@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SuggestionServiceClient {
 
     @GetMapping("/suggestions")
-    ResponseEntity<Object> getSuggestions(@RequestParam("numMovies") int numMovies,
+    ResponseEntity<Object> getSuggestions(@RequestParam("max_suggestions") int maxSuggestions,
             @RequestParam("user_id") String userId);
 
     @GetMapping("/train")
