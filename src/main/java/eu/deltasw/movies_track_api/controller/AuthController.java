@@ -55,7 +55,7 @@ public class AuthController {
             if (isProduction) {
                 cookieBuilder.secure(true).sameSite("Strict");
             } else {
-                cookieBuilder.secure(false).sameSite("None");
+                cookieBuilder.secure(false).sameSite("Lax");
             }
             ResponseCookie cookie = cookieBuilder.build();
 
